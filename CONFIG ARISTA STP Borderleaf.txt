@@ -1,0 +1,28 @@
+conf t
+vlan 10
+name VLAN10
+int e1-2
+shutdown
+spanning-tree mode mstp
+spanning-tree mst  0 priority 0
+int e3-6
+switchport
+switchport mode trunk
+switchport trunk allowed vlan 10
+no shutdown
+
+
+conf t
+int e3-e6
+shut
+
+
+conf t
+int e3-e6
+no shut
+
+
+
+
+
+

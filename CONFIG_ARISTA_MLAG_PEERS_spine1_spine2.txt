@@ -1,0 +1,6 @@
+!
+spanning-tree mode mst
+
+spanning-tree mst configuration
+  instance 0 vlan 1-4094
+  spanning-tree mst 0 root primary

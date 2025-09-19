@@ -1,0 +1,7 @@
+spanning-tree mode mst
+no spanning-tree vlan-id 4094
+spanning-tree vlan-id 1-4093
+spanning-tree guard loop default
+int Eth7,9
+spanning-tree portfast
+spanning-tree bpduguard enable

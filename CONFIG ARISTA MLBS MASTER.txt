@@ -1,0 +1,96 @@
+stacking
+member 1 type "<switch model>" mac-address xxxxxx-xxxxxx
+y
+member 1 priority 255
+member 1 flexible-module A type JL083A
+exit
+hostname "<hostname>"
+encrypt-credentials
+y
+dhcp-snooping
+dhcp-snooping vlan 100 140 200 700 800 900
+trunk 1/A1,1/A2 trk1 lacp
+timesync ntp
+ntp unicast
+ntp server 128.143.33.100
+ntp server 128.143.220.100
+ntp enable
+tacacs-server host 10.246.3.75
+tacacs-server host 10.246.5.75
+tacacs-server encrypted-key "M2J5y4GR9nRCMCp1tiNFi90ojrNgX2KRk3oPztIGBj0="
+no telnet-server
+time timezone -240
+no web-management
+ip ssh filetransfer
+ip default-gateway <gateway ip address>
+interface Trk1
+   dhcp-snooping trust
+   exit
+no snmp-server community "public"
+snmp-server community "uvaedge" operator unrestricted
+snmp-server host 128.143.21.244 trap-level all community uvanoc
+aaa authentication login privilege-mode
+aaa authentication console login tacacs
+aaa authentication console enable tacacs
+aaa authentication ssh login tacacs
+aaa authentication ssh enable tacacs
+vlan 100
+   name "AON"
+   tagged Trk1
+   no ip address
+   ip igmp
+   exit
+vlan 140
+   name "APN"
+   untagged 1/1-1/36
+   tagged Trk1
+   no ip address
+   ip igmp
+   exit
+vlan 200
+   name "MSN"
+   tagged Trk1
+   no ip address
+   ip igmp
+   exit
+vlan 210
+   name "BID"
+   tagged Trk1
+   ip igmp
+   no ip address
+   exit
+vlan 700
+   name "NID"
+   untagged 1/37-1/48
+   tagged Trk1
+   ip address <ip address> <subnet mask>
+   ip igmp
+   exit
+vlan 800
+   name "PVN"
+   tagged Trk1
+   no ip address
+   ip igmp
+   exit
+vlan 900
+   name "VoIP"
+   tagged 1/1-1/48,Trk1
+   no ip address
+   ip igmp
+   qos dscp 000101
+   voice
+   exit
+vlan 1
+   name "Do_not_use"
+   no untagged 1/1-1/48,Trk1
+   exit
+primary-vlan 700
+spanning-tree
+spanning-tree Trk1 priority 4
+spanning-tree priority 4
+no tftp server
+no autorun
+no dhcp config-file-update
+no dhcp image-file-update
+no dhcp tr69-acs-url
+password manager

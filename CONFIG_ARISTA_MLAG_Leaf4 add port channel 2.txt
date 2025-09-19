@@ -1,0 +1,13 @@
+vlan 40
+
+interface Port-Channel2
+  description MLAG Connection to Host4
+  switchport
+  switchport mode access
+  switchport access vlan 40
+  mlag 2
+  no shut
+
+interface Ethernet9
+  description LACP Connection to Host4
+  channel-group 2 mode active

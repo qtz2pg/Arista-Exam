@@ -1,0 +1,20 @@
+!
+ vlan 10
+ vlan 20
+
+ !
+interface Port-Channel20
+  description Leaf 1 and Leaf 2 MLAG PortChannel 20 to Spine MLAG
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 10,20
+  mlag 20
+  no shut
+
+
+interface Ethernet3
+  channel-group 20 mode active
+
+
+interface Ethernet4
+  channel-group 20  mode active

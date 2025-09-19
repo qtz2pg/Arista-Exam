@@ -1,0 +1,14 @@
+interface Port-Channel30
+   description Spine 1 and SPine 2 MLAG PortChannel 30 to Leaf 3 and Leaf 4 MLAG
+   switchport
+   switchport mode trunk
+   switchport trunk allowed vlan 30,40
+   mlag 30
+   no shut
+
+interface Ethernet5
+   channel-group 30 mode active
+
+
+interface Ethernet6
+   channel-group 30  mode active

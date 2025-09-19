@@ -1,0 +1,13 @@
+vlan 30
+
+interface Port-Channel1
+  description MLAG Connection to Host3
+  switchport
+  switchport mode access
+  switchport access vlan 30
+  mlag 1
+  no shut
+
+interface Ethernet7
+  description LACP Connection to Host3
+  channel-group 1 mode active
