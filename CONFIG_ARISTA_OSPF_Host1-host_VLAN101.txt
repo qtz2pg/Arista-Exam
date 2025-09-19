@@ -1,0 +1,14 @@
+ vlan 101
+
+ int vlan 101
+  ip address 172.16.101.10/24
+
+ip routing
+
+ip route 0.0.0.0/0 172.16.101.1
+
+interface Ethernet 1
+ switchport
+ switchport mode access
+ switchport access vlan 101
+ no shutdown

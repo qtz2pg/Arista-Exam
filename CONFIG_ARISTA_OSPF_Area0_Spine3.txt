@@ -1,0 +1,12 @@
+ ip routing
+
+ router ospf 1
+    router-id 10.23.23.23
+    passive-interface default
+    no passive-interface Ethernet 3-8
+    network 0.0.0.0/0 area 0
+
+
+interface Ethernet 3-8
+  ip ospf network point-to-point
+  no shut
