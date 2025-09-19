@@ -1,0 +1,13 @@
+# Place switch configuration files here
+
+## Examples:
+- spine-01.cfg
+- spine-02.cfg  
+- leaf-01.cfg
+- leaf-02.cfg
+- access-switch-01.cfg
+
+## Naming Convention:
+- Use descriptive device names
+- Include timestamps for versioned configs: device-name_YYYY-MM-DD.cfg
+- Use .cfg extension for Arista configurations

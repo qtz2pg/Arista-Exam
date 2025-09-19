@@ -1,0 +1,42 @@
+# Temporary files
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Log files
+*.log
+logs/
+
+# Config backups with timestamps (keep in configs/backups/)
+configs/backups/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Compressed files (unless specifically needed)
+*.zip
+*.tar.gz
+*.tgz
+*.rar
+
+# Scripts output
+scripts/output/
+scripts/logs/

@@ -1,0 +1,9 @@
+# Place firewall configuration files here
+
+## Examples:
+- perimeter-firewall-01.cfg
+- internal-firewall-01.cfg
+
+## Naming Convention:
+- Use descriptive device names
+- Include timestamps for versioned configs: device-name_YYYY-MM-DD.cfg

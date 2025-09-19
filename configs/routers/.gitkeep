@@ -1,0 +1,11 @@
+# Place router configuration files here
+
+## Examples:
+- core-router-01.cfg
+- border-router-01.cfg
+- wan-router-01.cfg
+
+## Naming Convention:
+- Use descriptive device names
+- Include timestamps for versioned configs: device-name_YYYY-MM-DD.cfg
+- Use .cfg extension for router configurations
