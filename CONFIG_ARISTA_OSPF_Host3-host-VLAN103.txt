@@ -1,0 +1,14 @@
+ vlan 103
+
+ int vlan 103
+  ip address 172.16.103.10/24
+
+ip routing
+
+ip route 0.0.0.0/0 172.16.103.1
+
+interface Ethernet 1
+ switchport
+ switchport mode access
+ switchport access vlan 103
+ no shutdown

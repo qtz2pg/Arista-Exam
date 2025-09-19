@@ -1,0 +1,5 @@
+interface Ethernet 7
+ switchport
+ switchport mode access
+ switchport access vlan 103
+ no shutdown

@@ -1,0 +1,27 @@
+ip routing
+
+interface Loopback0
+   ip address 10.12.12.12/32
+    ip ospf area 0.0.0.1
+!
+interface Ethernet1,2
+      shutdown
+
+interface Ethernet3-6
+      no switchport
+      ip ospf network point-to-point
+      ip ospf area 0.0.0.0
+
+interface Ethernet7
+      no switchport
+      ip address unnumbered Loopback0
+      ip ospf network point-to-point
+      ip ospf area 0.0.0.1
+
+router ospf 1
+      router-id 10.12.12.12
+      log-adjacency-changes
+      network 10.10.1.0/30 area 0.0.0.0
+      network 10.10.2.0/30 area 0.0.0.0
+      network 10.10.3.0/30 area 0.0.0.0
+      network 10.10.4.0/30 area 0.0.0.0
