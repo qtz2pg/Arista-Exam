@@ -1,0 +1,11 @@
+ip prefix-list local-SVI
+
+  permit 172.16.101.0/24
+
+route-map redist-SVI permit 10
+
+  match ip address prefix-list local-SVI
+
+router bgp 65001
+  no redistribute connected
+  redistribute connected route-map redist-SVI

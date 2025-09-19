@@ -1,0 +1,29 @@
+vlan 10
+name VLAN10
+exit
+
+int eth3,4,5,6
+switchport
+
+switchport mode trunk 
+switchport trunk allowed vlan 10
+no shutdown
+
+int eth1,2
+shutdown
+
+int eth7-10
+shutdown
+
+
+
+
+
+
+
+
+
+
+
+
+default interface Ethernet 3 (revert to default settings)

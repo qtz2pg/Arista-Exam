@@ -1,0 +1,19 @@
+Spine 1
+
+
+
+Vlan 10
+
+vlan 10
+   name L3-VLAN10
+
+interface Vlan10
+   ip address 10.1.1.1/24
+   vrrp 10 ip 10.1.1.50
+   vrrp 10 priority 110
+   vrrp 10 preempt
+
+interface Port-Channel1
+   description Downlink-to-Access-Segment
+   switchport mode access
+   switchport access vlan 10

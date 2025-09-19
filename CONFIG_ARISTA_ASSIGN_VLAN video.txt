@@ -1,0 +1,3 @@
+int eth1
+switchport mode trunk
+switchport access 10

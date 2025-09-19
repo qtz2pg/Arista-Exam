@@ -1,0 +1,122 @@
+hostname Spine4
+ip routing
+
+! -----------------------------
+! MLAG Peer-Link to Spine3
+! -----------------------------
+interface Ethernet1
+   description MLAG Peer-Link to Spine3 (link 1)
+   channel-group 200 mode active
+
+interface Ethernet2
+   description MLAG Peer-Link to Spine3 (link 2)
+   channel-group 200 mode active
+
+interface Port-Channel200
+   description MLAG Peer-Link to Spine3
+   switchport
+   switchport mode trunk
+   switchport trunk allowed vlan 30,40,4094
+   no shutdown
+
+interface Vlan4094
+   ip address 172.16.30.6/30
+   no shutdown
+
+mlag configuration
+   domain SPINE-MLAG
+   local-interface Vlan4094
+   peer-address 172.16.30.5
+   peer-link Port-Channel200
+   reload-delay mlag 300
+   reload-delay non-mlag 90
+
+! -----------------------------
+! Routed Downlinks to Leaf1–4
+! -----------------------------
+interface Ethernet3
+   description Routed Downlink to Leaf1
+   no switchport
+   ip address 10.10.4.1/30
+   no shutdown
+
+interface Ethernet4
+   description Routed Downlink to Leaf2
+   no switchport
+   ip address 10.10.4.5/30
+   no shutdown
+
+interface Ethernet5
+   description Routed Downlink to Leaf3
+   no switchport
+   ip address 10.10.4.9/30
+   no shutdown
+
+interface Ethernet6
+   description Routed Downlink to Leaf4
+   no switchport
+   ip address 10.10.4.13/30
+   no shutdown
+
+! -----------------------------
+! Loopback
+! -----------------------------
+interface Loopback0
+   ip address 10.24.24.24/32
+
+! -----------------------------
+! OSPF Configuration
+! -----------------------------
+router ospf 100
+   router-id 10.24.24.24
+   network 10.10.4.1/30 area 0
+   network 10.10.4.5/30 area 0
+   network 10.10.4.9/30 area 0
+   network 10.10.4.13/30 area 0
+   network 10.24.24.24/32 area 0
+
+! -----------------------------
+! BGP Configuration
+! -----------------------------
+router bgp 65100
+   router-id 10.24.24.24
+   maximum-paths 4 ecmp 4
+
+   neighbor Leafs peer-group
+   neighbor Leafs remote-as 65500
+   neighbor Leafs update-source Loopback0
+
+   neighbor BorderLeafs peer-group
+   neighbor BorderLeafs remote-as 65500
+   neighbor BorderLeafs update-source Loopback0
+
+   ! Leaf Neighbors
+   neighbor 10.11.11.11 peer-group Leafs
+   neighbor 10.11.11.11 description Leaf1
+
+   neighbor 10.12.12.12 peer-group Leafs
+   neighbor 10.12.12.12 description Leaf2
+
+   neighbor 10.13.13.13 peer-group Leafs
+   neighbor 10.13.13.13 description Leaf3
+
+   neighbor 10.14.14.14 peer-group Leafs
+   neighbor 10.14.14.14 description Leaf4
+
+   ! BorderLeaf Neighbors
+   neighbor 10.51.51.51 peer-group BorderLeafs
+   neighbor 10.51.51.51 description BorderLeaf1
+
+   neighbor 10.52.52.52 peer-group BorderLeafs
+   neighbor 10.52.52.52 description BorderLeaf2
+
+   network 10.24.24.24/32
+   redistribute connected route-map REDIST-CONNECTED
+
+! -----------------------------
+! Prefix-List + Route-Map
+! -----------------------------
+ip prefix-list local-loopback seq 10 permit 10.24.24.24/32
+
+route-map REDIST-CONNECTED permit 10
+   match ip address prefix-list local-loopback

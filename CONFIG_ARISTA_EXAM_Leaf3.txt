@@ -1,0 +1,73 @@
+hostname Leaf3
+ip routing
+ip virtual-router mac-address 001c.7300.0099
+
+vlan 30
+vlan 40
+vlan 4094
+   name MLAG
+   trunk group MLAGVLAN
+
+spanning-tree mode mstp
+spanning-tree mst configuration
+   instance 0 vlan 1-4094
+spanning-tree mst 0 root primary
+no spanning-tree vlan-id 4094
+
+interface Vlan30
+   ip address 192.168.30.1/24
+   ip virtual-router address 192.168.30.254
+   no autostate
+
+interface Vlan40
+   ip address 192.168.40.1/24
+   ip virtual-router address 192.168.40.254
+   no autostate
+
+interface Vlan4094
+   ip address 172.16.50.1/30
+   no autostate
+
+interface Port-Channel100
+   switchport
+   switchport mode trunk
+   switchport trunk group MLAGVLAN
+   no shutdown
+
+interface Ethernet1
+   channel-group 100 mode active
+
+interface Ethernet2
+   channel-group 100 mode active
+
+mlag configuration
+   domain-id MLAGLeaf3Leaf4
+   local-interface Vlan4094
+   peer-address 172.16.50.2
+   peer-link Port-Channel100
+   reload-delay mlag 300
+   reload-delay non-mlag 90
+   primary-priority 20
+
+interface Port-Channel30
+   switchport
+   switchport mode trunk
+   switchport trunk allowed vlan 30,40
+   mlag 30
+   no shutdown
+
+interface Ethernet5
+   channel-group 30 mode active
+
+interface Ethernet6
+   channel-group 30 mode active
+
+interface Loopback0
+   ip address 10.13.13.13/32
+
+router ospf 100
+   router-id 10.13.13.13
+   passive-interface default
+   no passive-interface Ethernet3
+   no passive-interface Ethernet4
+   network 0.0.0.0/0 area 0

@@ -1,0 +1,127 @@
+hostname Spine1
+ip routing
+
+! -----------------------------
+! MLAG Peer-Link to Spine2
+! -----------------------------
+interface Ethernet1
+   description MLAG Peer-Link to Spine2 (link 1)
+   channel-group 200 mode active
+
+interface Ethernet2
+   description MLAG Peer-Link to Spine2 (link 2)
+   channel-group 200 mode active
+
+interface Port-Channel200
+   description MLAG Peer-Link to Spine2
+   switchport
+   switchport mode trunk
+   switchport trunk allowed vlan 30,40,4094
+   no shutdown
+
+interface Vlan4094
+   ip address 172.16.30.1/30
+   no shutdown
+
+mlag configuration
+   domain SPINE-MLAG
+   local-interface Vlan4094
+   peer-address 172.16.30.2
+   peer-link Port-Channel200
+   reload-delay mlag 300
+   reload-delay non-mlag 90
+
+! -----------------------------
+! Routed Downlinks to Leaf1–4
+! -----------------------------
+interface Ethernet3
+   description Routed Downlink to Leaf1
+   no switchport
+   ip address 10.10.1.1/30
+   no shutdown
+
+interface Ethernet4
+   description Routed Downlink to Leaf2
+   no switchport
+   ip address 10.10.1.5/30
+   no shutdown
+
+interface Ethernet5
+   description Routed Downlink to Leaf3
+   no switchport
+   ip address 10.10.1.9/30
+   no shutdown
+
+interface Ethernet6
+   description Routed Downlink to Leaf4
+   no switchport
+   ip address 10.10.1.13/30
+   no shutdown
+
+! -----------------------------
+! Routed Downlinks to BorderLeafs
+! -----------------------------
+interface Ethernet7
+   description Routed Downlink to BorderLeaf1
+   no switchport
+   ip address 10.10.5.2/30
+   no shutdown
+
+interface Ethernet8
+   description Routed Downlink to BorderLeaf2
+   no switchport
+   ip address 10.10.6.2/30
+   no shutdown
+
+! -----------------------------
+! Loopback
+! -----------------------------
+interface Loopback0
+   ip address 10.21.21.21/32
+
+! -----------------------------
+! OSPF Configuration
+! -----------------------------
+router ospf 100
+   router-id 10.21.21.21
+   network 10.10.1.1/30 area 0
+   network 10.10.1.5/30 area 0
+   network 10.10.1.9/30 area 0
+   network 10.10.1.13/30 area 0
+   network 10.10.5.2/30 area 0
+   network 10.10.6.2/30 area 0
+   network 10.21.21.21/32 area 0
+
+! -----------------------------
+! BGP Configuration
+! -----------------------------
+router bgp 65100
+   router-id 10.21.21.21
+   maximum-paths 4 ecmp 4
+
+   neighbor Leafs peer-group
+   neighbor Leafs remote-as 65500
+   neighbor Leafs update-source Loopback0
+
+   neighbor BorderLeafs peer-group
+   neighbor BorderLeafs remote-as 65500
+   neighbor BorderLeafs update-source Loopback0
+
+   neighbor 10.11.11.11 peer-group Leafs
+   neighbor 10.12.12.12 peer-group Leafs
+   neighbor 10.13.13.13 peer-group Leafs
+   neighbor 10.14.14.14 peer-group Leafs
+
+   neighbor 10.51.51.51 peer-group BorderLeafs
+   neighbor 10.52.52.52 peer-group BorderLeafs
+
+   network 10.21.21.21/32
+   redistribute connected route-map REDIST-CONNECTED
+
+! -----------------------------
+! Prefix-List + Route-Map
+! -----------------------------
+ip prefix-list local-loopback seq 10 permit 10.21.21.21/32
+
+route-map REDIST-CONNECTED permit 10
+   match ip address prefix-list local-loopback

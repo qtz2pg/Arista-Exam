@@ -1,0 +1,19 @@
+conf t
+vlan 10
+name sales (optional)
+exit
+
+int eth1
+switchport mode access
+switchport access vlan 10 
+
+
+
+
+show vlan
+sh interfaces eth1 switchport <detailed>
+switchport trunk allowed vlan 10 <choose which vlans to trunk>
+
+
+
+

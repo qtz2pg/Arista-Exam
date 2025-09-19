@@ -1,0 +1,79 @@
+OSPF (SET UP 2 Spines, 4 Leafs) (Layer 3)
+Spine 1 Loopback 0 5.5.5.5
+Spine 2 Loopback 0 6.6.6.6
+Leaf  1 Loopback 0 1.1.1.1/32
+Leaf 2  Loopback 0 2.2.2.2
+Leaf 3 Loopback 0 3.3.3.3
+Leaf 4 Loopback 0 4.4.4.4
+
+Subnet 
+Spine 1 10.10.1.0/30
+Spine 2 10.10.2.0/30
+
+
+LEAf 1 (repeat f0r all leafs)
+interface loopback 0
+ip address 1.1.1.1/32
+ip ospf area 0
+
+Router ospf 1
+1.1.1.1
+
+interface eth3
+no switchport
+ip address 10.10.1.2/30
+no shutdown
+ip ospf area 0
+ip ospf network point-to-point
+
+interface eth4 
+no switchport
+ip address 10.10.2.2/30
+no shutdown
+ip ospf area 0
+ip ospf network point-to-point
+
+SPINE 1
+
+interface loopback 0
+ip address 5.5.5.5/32
+
+Router ospf 1
+router-id 5.5.5.5
+ip ospf area 0
+
+interface eth2
+no switchport
+ip address 10.10.1.1/30
+no shutdown
+ip ospf area 0
+ip ospf network point-to-point
+
+interface eth3 
+no switchport
+ip address 10.10.1.5/30
+no shutdown
+ip ospf area 0
+ip ospf network point-to-point
+
+interface eth4
+no switchport
+ip address 10.10.1.9/30
+no shutdown
+ip ospf area 0
+ip ospf network point-to-point
+
+interface eth5
+no switchport
+ip address 10.10.1.13/30
+no shutdown
+ip ospf area 0
+ip ospf network point-to-point
+
+(to get the spine to advertise loopback add this command to Spine)
+conf t
+interface loopback 0
+ip ospf area 0 <activates ospf on the loopback>
+
+
+

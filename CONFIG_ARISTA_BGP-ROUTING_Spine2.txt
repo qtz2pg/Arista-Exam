@@ -1,0 +1,25 @@
+ip routing
+
+router bgp 65100
+   router-id 10.22.22.22
+
+   neighbor 10.10.2.2 description Leaf1
+   neighbor 10.10.2.2 remote-as 65001
+
+   neighbor 10.10.2.6 description Leaf2
+   neighbor 10.10.2.6 remote-as 65002
+
+   neighbor 10.10.2.10 description Leaf3
+   neighbor 10.10.2.10 remote-as 65003
+
+   neighbor 10.10.2.14 description Leaf4
+   neighbor 10.10.2.14 remote-as 65004
+
+   neighbor 10.10.5.5 description BorderLeaf1
+   neighbor 10.10.5.5 remote-as 65500
+
+   neighbor 10.10.6.5 description BorderLeaf2
+   neighbor 10.10.6.5 remote-as 65500
+
+   network 10.22.22.22/32
+   redistribute connected

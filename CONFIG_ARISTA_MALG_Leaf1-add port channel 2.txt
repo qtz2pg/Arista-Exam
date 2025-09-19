@@ -1,0 +1,13 @@
+vlan 20
+
+interface Port-Channel2
+  description MLAG Connection to Host2
+  switchport
+  switchport mode access
+  switchport access vlan 20
+  mlag 2
+  no shut
+
+interface Ethernet9
+  description LACP Connection to Host2
+  channel-group 2 mode active

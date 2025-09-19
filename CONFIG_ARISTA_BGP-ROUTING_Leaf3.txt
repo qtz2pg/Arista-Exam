@@ -1,0 +1,17 @@
+ip routing
+
+router bgp 65003
+   router-id 10.13.13.13
+   maximum-paths 4 ecmp 4
+   neighbor Spines peer group
+   neighbor Spines remote-as 65100
+   neighbor 10.10.1.9 peer group Spines
+   neighbor 10.10.1.9 description Spine1
+   neighbor 10.10.2.9 peer group Spines
+   neighbor 10.10.2.9 description Spine2
+   neighbor 10.10.3.9 peer group Spines
+   neighbor 10.10.3.9 description Spine3
+   neighbor 10.10.4.9 peer group Spines
+   neighbor 10.10.4.9 description Spine4
+   network 10.13.13.13/32
+   redistribute connected

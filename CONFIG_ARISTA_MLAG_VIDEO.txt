@@ -1,0 +1,77 @@
+Leaf1 (peer-link to Leaf2)
+
+int eth01-02
+channel-group 10 mode active
+
+int po10
+description po10
+description Peer-link
+switchport mode-trunk
+
+Vlan 4094
+trunk group MLAG-peer
+
+int po10
+trunk group MLAG-peer
+
+No spanning-tree vlan-id 4094
+
+interface vlan 4094
+ip address 1.1.1.1/24
+no shutdown
+no autostate
+
+Mlag configuration
+local-interface vlan 4094
+peer-address 1.1.1.2
+peer-link po10
+domain-id 10
+
+int eth05-06
+description Connected to Host1
+channel-group 1 mode active
+interface port-channel 1
+mlag 1
+
+
+Leaf2 (peer-link to Leaf1)
+
+int eth01-02
+channel-group 10 mode active
+
+int po10
+description po10
+description Peer-link
+switchport mode-trunk
+
+Vlan 4094
+trunk group MLAG-peer
+
+int po10
+trunk group MLAG-peer
+
+No spanning-tree vlan-id 4094
+
+interface vlan 4094
+ip address 1.1.1.2/24
+no shutdown
+no autostate
+
+Mlag configuration
+local-interface vlan 4094
+peer-address 1.1.1.1
+peer-link po10
+domain-id 10
+
+int eth05-06
+description Connected to Host1
+channel-group 1 mode active
+interface port-channel 1
+mlag 1
+
+Host1
+
+int eth01-04
+channel-group 1 mode active
+
+

@@ -1,0 +1,30 @@
+ ip access-list Telnet-Service-ACL
+  10 deny tcp 10.10.1.0/30 10.10.1.0/30 eq telnet
+  20 permit tcp any any eq telnet
+
+<EXIT>
+
+ management telnet
+   no shut
+   ip access-group Telnet-Service-ACL vrf default in
+   ip access-group Telnet-Service-ACL vrf MGMT in
+
+
+
+
+To REMOVE RULE ON SPINE 1:
+
+conf t
+management telnet
+no ip access-group Telnet-Service-ACL vrf MGMT in
+no  ip access-group Telnet-Service-ACL in
+no shut
+exit
+
+
+T0 PING (TELNET) FROM LEAF1 to SPINE1:
+
+telnet 10.10.1.1 /source-interface Ethernet3 
+
+
+

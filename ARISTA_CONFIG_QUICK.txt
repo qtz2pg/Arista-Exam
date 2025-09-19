@@ -1,0 +1,16 @@
+leaf1(config)#sh event-monitor ?
+  all           Monitor all events
+  arp           Monitor ARP table events
+  igmpsnooping  Monitor IGMP snooping table events
+  lacp          Monitor LACP table events
+  mac           Monitor MAC table events
+  mroute        Monitor mroute table events
+  neighbor      Monitor neighbor events
+  route         Monitor routing events
+  route6        Monitor route6 events
+  sqlite        Enter a SQLite statment
+  stpunstable   Monitor STP unstable events
+
+leaf1#conf
+leaf1(config)# ip route vrf MGMT 172.12.0.0/24 192.168.0.12
+leaf1(config)#

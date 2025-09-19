@@ -1,0 +1,5 @@
+conf t
+int eth3 (ingress)
+switchport vlan mapping in 11 200
+int eth5 (egress)
+switchport vlan mapping out 11 200

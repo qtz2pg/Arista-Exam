@@ -1,0 +1,30 @@
+SWITCH 1
+
+conf t
+int eth1
+switchport mode trunk
+switchport trunk allowed vlan 2
+int eth2
+switchport access vlan 200
+switchport mode dot1q-tunnel
+
+
+
+SWITCH 2 (Service Provider)
+
+*configure interfaces as trunks
+
+
+
+SWITCH 3
+
+conf t
+int eth5
+switchport access vlan 200
+switchport mode dot1q-tunnel
+int eth6
+switchport mode trunk
+switchport trunk allowed vlan 2
+
+
+

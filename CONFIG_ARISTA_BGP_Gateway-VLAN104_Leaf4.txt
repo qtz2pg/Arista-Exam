@@ -1,0 +1,5 @@
+vlan 104
+
+int vlan 104
+ip address 172.16.104.1/24
+no autostate

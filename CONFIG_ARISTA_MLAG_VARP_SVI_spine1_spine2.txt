@@ -1,0 +1,35 @@
+vlan 10
+vlan 20
+vlan 30
+vlan 40
+
+ip routing
+
+ip virtual-router mac-address 001c.7300.0099
+
+interface vlan 10
+   ip address 192.168.10.1/24
+   ip virtual-router address 192.168.10.254
+   no autostate
+
+interface vlan 20
+   ip address 192.168.20.1/24
+   ip virtual-router address 192.168.20.254
+   no autostate
+
+interface vlan 30
+   ip address 192.168.30.1/24
+   ip virtual-router address 192.168.30.254
+   no autostate§
+
+interface vlan 40
+   ip address 192.168.40.1/24
+   ip virtual-router address 192.168.40.254
+   no autostate
+
+
+
+
+#ACTIVE-ACTIVE GATEWAY
+#ANYCAST GATEWAY
+#PERVASIVE GATEWAY (cisco)
