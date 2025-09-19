@@ -1,0 +1,9 @@
+# Place access point configuration files here
+
+## Examples:
+- wifi-ap-01.cfg
+- wireless-controller-01.cfg
+
+## Naming Convention:
+- Use descriptive device names
+- Include timestamps for versioned configs: device-name_YYYY-MM-DD.cfg
